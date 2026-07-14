@@ -94,6 +94,15 @@ lib/
   prompts.js               ← TUTTI i prompt della pipeline (modificali qui)
 ```
 
+## Se la torta cambia troppo (fedeltà)
+
+Due meccanismi proteggono l'identità della torta durante l'editing:
+
+1. **Modello**: di default si usa `fal-ai/nano-banana-2/edit` (Gemini 3.1 Flash Image), più fedele nel preservare il soggetto rispetto al primo Nano Banana. Se serve ancora più fedeltà, prova `fal-ai/nano-banana-pro/edit` in `FAL_MODEL_ID` (costa di più, ~$0.13-0.24/immagine).
+2. **Ancoraggio all'originale**: ogni step della pipeline riceve sempre DUE immagini — la foto originale intatta e la versione in lavorazione — con un'istruzione esplicita di riportare la torta fedele all'originale prima di applicare la correzione. Questo evita che piccole derive si accumulino passando da uno step all'altro.
+
+Se nonostante questo un risultato non convince, il modo più efficace per correggerlo resta il bottone **"Non mi convince"** su quella foto: la correzione mirata scritta lì viene applicata partendo comunque dall'originale come riferimento.
+
 ## Costi indicativi
 
 Con FAL/Nano Banana l'editing costa pochi centesimi a immagine. Una foto tipica passa per 2-4 step → ~10-20 centesimi a foto finita. L'analisi automatica con Gemini Flash costa frazioni di centesimo.

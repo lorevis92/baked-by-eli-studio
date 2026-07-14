@@ -187,9 +187,10 @@ export default function Home() {
     for (const step of steps) {
       const prompt = buildPrompt(step, {
         format,
+        anchored: true,
         feedback: photosRef.current.find((p) => p.id === photo.id)?.feedback,
       });
-      img = await runEdit({ provider, prompt, images: [img] });
+      img = await runEdit({ provider, prompt, images: [photo.original, img] });
       done.push(step.label);
       patchPhoto(photo.id, (p) => ({
         history: [...p.history, p.current],
@@ -276,7 +277,7 @@ export default function Home() {
       const img = await runEdit({
         provider,
         prompt: buildFeedbackPrompt(text),
-        images: [photo.current],
+        images: [photo.original, photo.current],
       });
       patchPhoto(photo.id, (p) => ({
         history: [...p.history, p.current],
@@ -294,8 +295,16 @@ export default function Home() {
   async function runSingleStep(photo, step) {
     patchPhoto(photo.id, { status: 'processing', error: null });
     try {
-      const prompt = buildPrompt(step, { format, feedback: photo.feedback });
-      const img = await runEdit({ provider, prompt, images: [photo.current] });
+      const prompt = buildPrompt(step, {
+        format,
+        anchored: true,
+        feedback: photo.feedback,
+      });
+      const img = await runEdit({
+        provider,
+        prompt,
+        images: [photo.original, photo.current],
+      });
       patchPhoto(photo.id, (p) => ({
         history: [...p.history, p.current],
         current: img,
@@ -313,8 +322,16 @@ export default function Home() {
     try {
       let img = photo.current;
       for (const step of sel) {
-        const prompt = buildPrompt(step, { format, feedback: photo.feedback });
-        img = await runEdit({ provider, prompt, images: [img] });
+        const prompt = buildPrompt(step, {
+          format,
+          anchored: true,
+          feedback: photo.feedback,
+        });
+        img = await runEdit({
+          provider,
+          prompt,
+          images: [photo.original, img],
+        });
         patchPhoto(photo.id, (p) => ({
           history: [...p.history, p.current],
           current: img,

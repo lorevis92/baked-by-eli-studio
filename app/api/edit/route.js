@@ -11,7 +11,7 @@ export const maxDuration = 60;
 //           l'immagine come data URI.
 // ------------------------------------------------------------
 
-const FAL_MODEL_ID = process.env.FAL_MODEL_ID || 'fal-ai/nano-banana/edit';
+const FAL_MODEL_ID = process.env.FAL_MODEL_ID || 'fal-ai/nano-banana-2/edit';
 const GOOGLE_MODEL_ID = process.env.GOOGLE_MODEL_ID || 'gemini-2.5-flash-image';
 
 export async function POST(req) {
